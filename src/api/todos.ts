@@ -1,4 +1,3 @@
-import { url } from 'inspector';
 import { Todo } from '../types/Todo';
 import { client } from '../utils/fetchClient';
 
@@ -9,7 +8,14 @@ export const getTodos = () => {
 };
 
 export const addTodos = (title: string) => {
-  client.post<Todo>(`todos`, { userid: USER_ID, title, completed: false });
+  return client.post<Todo>(`todos`, {
+    userid: USER_ID,
+    title,
+    completed: false,
+  });
 };
 
+export const deleteTodos = (id: number) => {
+  return client.delete(`/todos/${id}`);
+};
 // Add more methods here

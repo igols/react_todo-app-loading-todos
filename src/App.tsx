@@ -1,24 +1,19 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useState } from 'react';
-//import { UserWarning } from './UserWarning';
-import { addTodos, getTodos, USER_ID } from './api/todos';
+import { UserWarning } from './UserWarning';
+import { addTodos, deleteTodos, getTodos, USER_ID } from './api/todos';
 import { Header } from './component/Header';
 import { Section } from './component/Section/Section';
 import { Footer } from './component/Footer/Footer';
 import { Todo } from './types/Todo';
 import { Error } from './component/Error';
-//import { getTodos } from './api/todos';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessege, setErrorMessege] = useState<string>('');
   const [newTodo, setNewTodo] = useState<string>('');
   const [loading, setLoading] = useState(false);
-
-  if (!USER_ID) {
-    return;
-  }
 
   const loadTodos = async () => {
     try {
@@ -58,6 +53,23 @@ export const App: React.FC = () => {
     }
   }
 
+  async function handleDeleteTodo(id: number) {
+    try {
+      setLoading(true);
+      setErrorMessege('');
+      await deleteTodos(id);
+      setTodos(todos);
+    } catch {
+      setErrorMessege('Unable to delete a todo');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (!USER_ID) {
+    return <UserWarning />;
+  }
+
   return (
     <div className="todoapp">
       <h1 className="todoapp__title">todos</h1>
@@ -68,10 +80,11 @@ export const App: React.FC = () => {
           setNewTodo={setNewTodo}
           loading={loading}
           handleAddTodo={handleAddTodo}
+          handleDeleteTodo={handleDeleteTodo}
         />
-        <Section todos={todos} errorMessege={errorMessege} />
+        <Section todos={todos} />
         {/* Hide the footer if there are no todos */}
-        {todos.length === 0 && <Footer todos={todos} />}
+        {todos.length > 0 && <Footer todos={todos} />}
       </div>
 
       {/* DON'T use conditional rendering to hide the notification */}
