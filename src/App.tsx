@@ -80,9 +80,8 @@ export const App: React.FC = () => {
           setNewTodo={setNewTodo}
           loading={loading}
           handleAddTodo={handleAddTodo}
-          handleDeleteTodo={handleDeleteTodo}
         />
-        <Section todos={todos} />
+        <Section todos={todos} handleDeleteTodo={handleDeleteTodo} />
         {/* Hide the footer if there are no todos */}
         {todos.length > 0 && <Footer todos={todos} />}
       </div>

@@ -6,8 +6,7 @@ type Props = {
   handleDeleteTodo?: (id: number) => void;
 };
 
-export const Section: React.FC<Props> = ({ todos, handleDeleteTodo,
-}) => {
+export const Section: React.FC<Props> = ({ todos, handleDeleteTodo }) => {
   return (
     <section className="todoapp__main" data-cy="TodoList">
       {/* This is a completed todo */}
@@ -20,7 +19,8 @@ export const Section: React.FC<Props> = ({ todos, handleDeleteTodo,
             data-cy="Todo"
             className={`todo ${todo.completed ? 'completed' : ''}`}
           >
-            <label  htmlFor={todoId} className="todo__status-label">
+            <label htmlFor={todoId} className="todo__status-label">
+              {' '}
               <input
                 id={todoId}
                 data-cy="TodoStatus"
@@ -47,7 +47,10 @@ export const Section: React.FC<Props> = ({ todos, handleDeleteTodo,
             </button>
 
             {/* overlay will cover the todo while it is being deleted or updated */}
-            <div data-cy="TodoLoader" className="modal overlay">
+            <div
+              data-cy="TodoLoader"
+              className={`modal overlay ${todo.isLoading ? 'is-active' : ''}`}
+            >
               <div className="modal-background has-background-white-ter" />
               <div className="loader" />
             </div>
