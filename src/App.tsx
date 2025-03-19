@@ -9,7 +9,6 @@ import { Footer } from './component/Footer/Footer';
 import { Todo } from './types/Todo';
 import { Error } from './component/Error';
 
-
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessege, setErrorMessege] = useState<string>('');
@@ -60,11 +59,7 @@ export const App: React.FC = () => {
       setLoading(true);
       setErrorMessege('');
       await deleteTodos(id);
-      setTodos(
-        todos.map(todo =>
-          todo.id === id ? { ...todo, isLoading: true } : todo,
-        ),
-      );
+      setTodos(await getTodos());
     } catch {
       setErrorMessege('Unable to delete a todo');
     } finally {
@@ -119,4 +114,5 @@ export const App: React.FC = () => {
 
       <Error errorMessege={errorMessege} />
     </div>
-  )};
+  );
+};
