@@ -9,11 +9,13 @@ import { Footer } from './component/Footer/Footer';
 import { Todo } from './types/Todo';
 import { Error } from './component/Error';
 
+
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessege, setErrorMessege] = useState<string>('');
   const [newTodo, setNewTodo] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [selectedFilter, setselectedFilter] = useState<string>('');
 
   const loadTodos = async () => {
     try {
@@ -58,13 +60,32 @@ export const App: React.FC = () => {
       setLoading(true);
       setErrorMessege('');
       await deleteTodos(id);
-      setTodos(todos);
+      setTodos(
+        todos.map(todo =>
+          todo.id === id ? { ...todo, isLoading: true } : todo,
+        ),
+      );
     } catch {
       setErrorMessege('Unable to delete a todo');
     } finally {
       setLoading(false);
     }
   }
+
+  const filteredTodos = () => {
+    switch (selectedFilter) {
+      case 'Active':
+        return todos.filter(todo => !todo.completed);
+      case 'Completed':
+        return todos.filter(todo => todo.completed);
+      default:
+        return todos;
+    }
+  };
+
+  const handleClearCompleted = () => {
+    setTodos(todos.filter(todo => !todo.completed));
+  };
 
   if (!USER_ID) {
     return <UserWarning />;
@@ -75,21 +96,27 @@ export const App: React.FC = () => {
       <h1 className="todoapp__title">todos</h1>
       <div className="todoapp__content">
         <Header
-          todos={todos}
+          todos={filteredTodos()}
           newTodo={newTodo}
           setNewTodo={setNewTodo}
           loading={loading}
           handleAddTodo={handleAddTodo}
         />
         <Section todos={todos} handleDeleteTodo={handleDeleteTodo} />
-        {/* Hide the footer if there are no todos */}
-        {todos.length > 0 && <Footer todos={todos} />}
+        {/*+ Hide the footer if there are no todos */}
+        {todos.length > 0 && (
+          <Footer
+            todos={todos}
+            selectedFilter={selectedFilter}
+            setselectedFilter={setselectedFilter}
+            handleClearCompleted={handleClearCompleted}
+          />
+        )}
       </div>
 
-      {/* DON'T use conditional rendering to hide the notification */}
-      {/* Add the 'hidden' class to hide the message smoothly */}
+      {/*+ DON'T use conditional rendering to hide the notification */}
+      {/*+ Add the 'hidden' class to hide the message smoothly */}
 
       <Error errorMessege={errorMessege} />
     </div>
-  );
-};
+  )};

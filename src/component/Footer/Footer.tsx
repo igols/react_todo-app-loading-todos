@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 type Props = {
   todos: Todo[];
+  selectedFilter: string;
+  setselectedFilter: (value: string) => void;
+  handleClearCompleted: () => void;
 };
 
-export const Footer: React.FC<Props> = ({ todos }) => {
-  const [selectedFilter, setselectedFilter] = useState<string>('');
-
+export const Footer: React.FC<Props> = ({
+  todos,
+  selectedFilter,
+  setselectedFilter,
+  handleClearCompleted,
+}) => {
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
@@ -40,6 +46,7 @@ export const Footer: React.FC<Props> = ({ todos }) => {
             type="button"
             className="todoapp__clear-completed"
             data-cy="ClearCompletedButton"
+            onClick={handleClearCompleted}
           >
             Clear completed
           </button>

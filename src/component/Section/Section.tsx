@@ -2,30 +2,28 @@ import React from 'react';
 import { Todo } from '../../types/Todo';
 
 type Props = {
-  todos?: Todo[];
-  handleDeleteTodo?: (id: number) => void;
+  todos: Todo[];
+  handleDeleteTodo: (id: number) => void;
 };
 
 export const Section: React.FC<Props> = ({ todos, handleDeleteTodo }) => {
   return (
     <section className="todoapp__main" data-cy="TodoList">
       {/* This is a completed todo */}
-      {todos?.map(todo => {
-        const todoId = `todo-${todo.id}`;
-
+      {todos.map(todo => {
         return (
           <div
             key={todo.id}
             data-cy="Todo"
             className={`todo ${todo.completed ? 'completed' : ''}`}
           >
-            <label htmlFor={todoId} className="todo__status-label">
-              {' '}
+            <label htmlFor={`${todo.id}`} className="todo__status-label">
+              {}
               <input
-                id={todoId}
                 data-cy="TodoStatus"
                 type="checkbox"
                 className="todo__status"
+                id={`${todo.id}`}
                 checked={todo.completed}
                 disabled={todo.isLoading}
               />
