@@ -20,7 +20,6 @@ export const App: React.FC = () => {
     try {
       setLoading(true);
       setTodos(await getTodos());
-      setErrorMessege('');
     } catch {
       setErrorMessege('Unable to load todos');
     } finally {
@@ -112,7 +111,7 @@ export const App: React.FC = () => {
       {/*+ DON'T use conditional rendering to hide the notification */}
       {/*+ Add the 'hidden' class to hide the message smoothly */}
 
-      <Error errorMessege={errorMessege} />
+      {errorMessege.length > 0 && <Error errorMessege={errorMessege} />}
     </div>
   );
 };
