@@ -23,6 +23,7 @@ export const App: React.FC = () => {
     } catch {
       setErrorMessege('Unable to load todos');
     } finally {
+      setErrorMessege('');
       setLoading(false);
     }
   };
