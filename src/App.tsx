@@ -16,6 +16,16 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [selectedFilter, setselectedFilter] = useState<string>('');
 
+  useEffect(() => {
+    if (errorMessege.length === 0) {
+      return;
+    }
+
+    const timer = setTimeout(() => setErrorMessege(''), 3000);
+
+    return () => clearTimeout(timer);
+  }, [errorMessege]);
+
   const loadTodos = async () => {
     try {
       setLoading(false);
@@ -31,7 +41,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     loadTodos();
-  }, [errorMessege]);
+  }, []);
 
   async function handleAddTodo(event: React.FormEvent) {
     event.preventDefault();

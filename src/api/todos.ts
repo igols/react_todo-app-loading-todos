@@ -11,7 +11,7 @@ export const addTodos = (title: string) => {
   return client.post<Todo>(`/todos`, {
     userid: USER_ID,
     title,
-    completed: false,
+    completed: true,
   });
 };
 

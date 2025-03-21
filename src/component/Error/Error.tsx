@@ -13,7 +13,7 @@ export const Error: React.FC<Props> = ({ errorMessege, setErrorMessege }) => {
         'notification',
         'is-danger is-light',
         'has-text-weight-normal',
-        { hidden: errorMessege === '' },
+        { hidden: errorMessege.length === 0 },
       )}
     >
       <button
