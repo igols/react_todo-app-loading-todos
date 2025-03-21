@@ -28,13 +28,12 @@ export const App: React.FC = () => {
 
   const loadTodos = async () => {
     try {
-      setLoading(false);
+      setLoading(true);
       setTodos(await getTodos());
     } catch {
       setLoading(true);
       setErrorMessege('Unable to load todos');
     } finally {
-      setErrorMessege('');
       setLoading(false);
     }
   };
@@ -52,12 +51,11 @@ export const App: React.FC = () => {
     }
 
     try {
-      setLoading(false);
+      setLoading(true);
       const createdTodo = await addTodos(newTodo);
 
       setTodos([...todos, createdTodo]);
       setNewTodo('');
-      setErrorMessege('');
     } catch {
       setLoading(true);
       setErrorMessege('Unable to add a todo');
@@ -68,8 +66,7 @@ export const App: React.FC = () => {
 
   async function handleDeleteTodo(id: number) {
     try {
-      setLoading(false);
-      setErrorMessege('');
+      setLoading(true);
       deleteTodos(id);
       setTodos(await getTodos());
     } catch {
@@ -123,9 +120,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      {/*+ DON'T use conditional rendering to hide the notification */}
-      {/*+ Add the 'hidden' class to hide the message smoothly */}
-      <Error errorMessege={errorMessege} setErrorMessege={setErrorMessege} />
+      {loading && <Error errorMessege={errorMessege} />}
     </div>
   );
 };
