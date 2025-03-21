@@ -18,9 +18,10 @@ export const App: React.FC = () => {
 
   const loadTodos = async () => {
     try {
-      setLoading(true);
+      setLoading(false);
       setTodos(await getTodos());
     } catch {
+      setLoading(true);
       setErrorMessege('Unable to load todos');
     } finally {
       setErrorMessege('');
@@ -30,7 +31,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     loadTodos();
-  }, []);
+  }, [errorMessege]);
 
   async function handleAddTodo(event: React.FormEvent) {
     event.preventDefault();
@@ -41,13 +42,14 @@ export const App: React.FC = () => {
     }
 
     try {
-      setLoading(true);
+      setLoading(false);
       const createdTodo = await addTodos(newTodo);
 
       setTodos([...todos, createdTodo]);
       setNewTodo('');
       setErrorMessege('');
     } catch {
+      setLoading(true);
       setErrorMessege('Unable to add a todo');
     } finally {
       setLoading(false);
@@ -56,11 +58,12 @@ export const App: React.FC = () => {
 
   async function handleDeleteTodo(id: number) {
     try {
-      setLoading(true);
+      setLoading(false);
       setErrorMessege('');
-      await deleteTodos(id);
+      deleteTodos(id);
       setTodos(await getTodos());
     } catch {
+      setLoading(true);
       setErrorMessege('Unable to delete a todo');
     } finally {
       setLoading(false);
@@ -91,13 +94,14 @@ export const App: React.FC = () => {
       <h1 className="todoapp__title">todos</h1>
       <div className="todoapp__content">
         <Header
-          todos={filteredTodos()}
+          todos={todos}
           newTodo={newTodo}
           setNewTodo={setNewTodo}
           loading={loading}
           handleAddTodo={handleAddTodo}
+          loadTodos={loadTodos}
         />
-        <Section todos={todos} handleDeleteTodo={handleDeleteTodo} />
+        <Section todos={filteredTodos()} handleDeleteTodo={handleDeleteTodo} />
         {/*+ Hide the footer if there are no todos */}
         {todos.length > 0 && (
           <Footer

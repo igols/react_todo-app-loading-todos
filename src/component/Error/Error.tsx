@@ -9,9 +9,12 @@ export const Error: React.FC<Props> = ({ errorMessege, setErrorMessege }) => {
   return (
     <div
       data-cy="ErrorNotification"
-      className={cn('notification is-danger is-light ', {
-        hidden: errorMessege === '',
-      })}
+      className={cn(
+        'notification',
+        'is-danger is-light',
+        'has-text-weight-normal',
+        { hidden: errorMessege === '' },
+      )}
     >
       <button
         data-cy="HideErrorButton"

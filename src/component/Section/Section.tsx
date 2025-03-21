@@ -24,7 +24,6 @@ export const Section: React.FC<Props> = ({ todos, handleDeleteTodo }) => {
                 type="checkbox"
                 className="todo__status"
                 id={`${todo.id}`}
-                checked={todo.completed}
                 disabled={todo.isLoading}
               />
             </label>

@@ -7,6 +7,7 @@ type Props = {
   setNewTodo: (newTodo: string) => void;
   loading: boolean;
   handleAddTodo?: (event: React.FormEvent) => void;
+  loadTodos?: () => void;
 };
 
 export const Header: React.FC<Props> = ({
@@ -15,6 +16,7 @@ export const Header: React.FC<Props> = ({
   setNewTodo,
   loading,
   handleAddTodo,
+  loadTodos,
 }) => {
   return (
     <header className="todoapp__header">
@@ -23,15 +25,16 @@ export const Header: React.FC<Props> = ({
         type="button"
         className={`todoapp__toggle-all ${todos.every(todo => todo.completed) ? 'active' : ''}`}
         data-cy="ToggleAllButton"
+        onClick={() => loadTodos}
       />
       {/* Add a todo on form submit */}
       <form onSubmit={handleAddTodo}>
         <input
+          autoFocus
           data-cy="NewTodoField"
           type="text"
           className="todoapp__new-todo"
           placeholder="What needs to be done?"
-          autoFocus
           value={newTodo}
           onChange={e => setNewTodo(e.target.value)}
           disabled={loading}
