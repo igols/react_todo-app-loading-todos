@@ -112,7 +112,9 @@ export const App: React.FC = () => {
       {/*+ DON'T use conditional rendering to hide the notification */}
       {/*+ Add the 'hidden' class to hide the message smoothly */}
 
-      <Error errorMessege={errorMessege} />
+      {loading === false && (
+        <Error errorMessege={errorMessege} setErrorMessege={setErrorMessege} />
+      )}
     </div>
   );
 };
