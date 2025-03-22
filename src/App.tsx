@@ -8,6 +8,7 @@ import { Section } from './component/Section/Section';
 import { Footer } from './component/Footer/Footer';
 import { Todo } from './types/Todo';
 import { Error } from './component/Error';
+import { Loader } from './component/Loader';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -15,16 +16,6 @@ export const App: React.FC = () => {
   const [newTodo, setNewTodo] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [selectedFilter, setselectedFilter] = useState<string>('');
-
-  useEffect(() => {
-    if (errorMessege.length === 0) {
-      return;
-    }
-
-    const timer = setTimeout(() => setErrorMessege(''), 3000);
-
-    return () => clearTimeout(timer);
-  }, [errorMessege]);
 
   const loadTodos = async () => {
     try {
@@ -39,8 +30,16 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
+    if (errorMessege.length === 0) {
+      return;
+    }
+
     loadTodos();
-  }, []);
+
+    const timer = setTimeout(() => setErrorMessege(''), 3000);
+
+    return () => clearTimeout(timer);
+  }, [todos, errorMessege]);
 
   async function handleAddTodo(event: React.FormEvent) {
     event.preventDefault();
@@ -119,8 +118,9 @@ export const App: React.FC = () => {
           />
         )}
       </div>
+      {loading && <Loader />}
 
-      {loading && <Error errorMessege={errorMessege} />}
+      {todos.length > 0 && <Error errorMessege={errorMessege} />}
     </div>
   );
 };
