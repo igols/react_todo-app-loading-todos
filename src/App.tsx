@@ -32,6 +32,15 @@ export const App: React.FC = () => {
   useEffect(() => {
     loadTodos();
   }, []);
+  useEffect(() => {
+    if (errorMessege.length === 0) {
+      return;
+    }
+
+    const timer = setTimeout(() => setErrorMessege(''), 3000);
+
+    return () => clearTimeout(timer);
+  }, [errorMessege]);
 
   async function handleAddTodo(event: React.FormEvent) {
     event.preventDefault();
@@ -113,7 +122,7 @@ export const App: React.FC = () => {
       </div>
       {loading && <Loader />}
 
-      {loading && todos.length > 0 && <Error errorMessege={errorMessege} />}
+      {todos.length === 0 && <Error errorMessege={errorMessege} />}
     </div>
   );
 };
