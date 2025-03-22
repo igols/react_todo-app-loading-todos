@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 type Props = {
   todos: Todo[];
@@ -27,10 +26,7 @@ export const Footer: React.FC<Props> = ({
             <a
               key={item}
               href="#/${item}"
-              className={cn('filter__link', {
-                selected: selectedFilter === item,
-                active: item === 'Active',
-              })}
+              className={`filter__link ${selectedFilter === item ? 'selected' : ''}`}
               data-cy="FilterLinkAll"
               onClick={() => setselectedFilter(item)}
             >
