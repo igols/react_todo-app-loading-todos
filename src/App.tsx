@@ -30,6 +30,10 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
+    loadTodos();
+  }, []);
+
+  useEffect(() => {
     if (errorMessege.length === 0) {
       return;
     }
