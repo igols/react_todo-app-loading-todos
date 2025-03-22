@@ -25,6 +25,7 @@ export const Section: React.FC<Props> = ({ todos, handleDeleteTodo }) => {
                 className="todo__status"
                 id={`${todo.id}`}
                 disabled={todo.isLoading}
+                checked={todo.completed}
               />
             </label>
 
