@@ -17,7 +17,8 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [selectedFilter, setselectedFilter] = useState<string>('');
 
-  const loadTodos = async () => {
+  const loadTodos = async (): Promise<void> => {
+    setErrorMessege('');
     try {
       setLoading(false);
       setTodos(await getTodos());
@@ -84,6 +85,8 @@ export const App: React.FC = () => {
         return todos.filter(todo => !todo.completed);
       case 'Completed':
         return todos.filter(todo => todo.completed);
+      case 'All':
+        return todos;
       default:
         return todos;
     }
@@ -122,7 +125,9 @@ export const App: React.FC = () => {
       </div>
       {loading && <Loader />}
 
-      {todos.length === 0 && <Error errorMessege={errorMessege} />}
+      {(errorMessege === '' || todos.length === 0) && (
+        <Error errorMessege={errorMessege} setError={setErrorMessege} />
+      )}
     </div>
   );
 };

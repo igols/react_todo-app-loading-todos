@@ -29,6 +29,7 @@ export const Footer: React.FC<Props> = ({
               href="#/${item}"
               className={cn('filter__link', {
                 selected: selectedFilter === item,
+                active: item === 'Active',
               })}
               data-cy="FilterLinkAll"
               onClick={() => setselectedFilter(item)}
@@ -41,7 +42,7 @@ export const Footer: React.FC<Props> = ({
 
       {
         /* + this button should be disabled if there are no completed todos */
-        selectedFilter === 'Completed' && (
+        selectedFilter !== 'Active' && (
           <button
             type="button"
             className="todoapp__clear-completed"
