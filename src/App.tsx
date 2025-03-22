@@ -19,7 +19,7 @@ export const App: React.FC = () => {
 
   const loadTodos = async () => {
     try {
-      setLoading(true);
+      setLoading(false);
       setTodos(await getTodos());
     } catch {
       setLoading(true);
@@ -33,18 +33,6 @@ export const App: React.FC = () => {
     loadTodos();
   }, []);
 
-  useEffect(() => {
-    if (errorMessege.length === 0) {
-      return;
-    }
-
-    loadTodos();
-
-    const timer = setTimeout(() => setErrorMessege(''), 3000);
-
-    return () => clearTimeout(timer);
-  }, [todos, errorMessege]);
-
   async function handleAddTodo(event: React.FormEvent) {
     event.preventDefault();
     if (!newTodo.trim()) {
@@ -54,7 +42,7 @@ export const App: React.FC = () => {
     }
 
     try {
-      setLoading(true);
+      setLoading(false);
       const createdTodo = await addTodos(newTodo);
 
       setTodos([...todos, createdTodo]);
@@ -64,12 +52,13 @@ export const App: React.FC = () => {
       setErrorMessege('Unable to add a todo');
     } finally {
       setLoading(false);
+      setErrorMessege('');
     }
   }
 
   async function handleDeleteTodo(id: number) {
     try {
-      setLoading(true);
+      setLoading(false);
       deleteTodos(id);
       setTodos(await getTodos());
     } catch {
@@ -124,7 +113,7 @@ export const App: React.FC = () => {
       </div>
       {loading && <Loader />}
 
-      {todos.length > 0 && <Error errorMessege={errorMessege} />}
+      {loading && todos.length > 0 && <Error errorMessege={errorMessege} />}
     </div>
   );
 };
