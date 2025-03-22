@@ -17,7 +17,7 @@ export const Footer: React.FC<Props> = ({
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
-        {todos.length}
+        {todos.filter(todo => !todo.completed).length} items left
       </span>
 
       {/*+ Active link should have the 'selected' class */}
