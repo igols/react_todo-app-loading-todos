@@ -15,7 +15,7 @@ export const App: React.FC = () => {
   const [errorMessege, setErrorMessege] = useState<string>('');
   const [newTodo, setNewTodo] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [selectedFilter, setselectedFilter] = useState<string>('');
+  const [selectedFilter, setselectedFilter] = useState<string>('All');
 
   const loadTodos = async (): Promise<void> => {
     setErrorMessege('');

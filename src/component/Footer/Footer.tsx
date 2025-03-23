@@ -25,7 +25,7 @@ export const Footer: React.FC<Props> = ({
           return (
             <a
               key={item}
-              href="#/${item}"
+              href="#/All"
               className={`filter__link ${selectedFilter === item ? 'selected' : ''}`}
               data-cy={`FilterLink${item}`}
               onClick={() => setselectedFilter(item)}
@@ -38,16 +38,15 @@ export const Footer: React.FC<Props> = ({
 
       {
         /* + this button should be disabled if there are no completed todos */
-        selectedFilter !== 'Active' && (
-          <button
-            type="button"
-            className="todoapp__clear-completed"
-            data-cy="ClearCompletedButton"
-            onClick={handleClearCompleted}
-          >
-            Clear completed
-          </button>
-        )
+
+        <button
+          type="button"
+          className="todoapp__clear-completed"
+          data-cy="ClearCompletedButton"
+          onClick={handleClearCompleted}
+        >
+          Clear completed
+        </button>
       }
     </footer>
   );
