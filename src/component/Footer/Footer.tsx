@@ -1,5 +1,7 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
+import { Filter } from '../../types/Filter';
+import cn from 'classnames';
 type Props = {
   todos: Todo[];
   selectedFilter: string;
@@ -13,20 +15,23 @@ export const Footer: React.FC<Props> = ({
   setselectedFilter,
   handleClearCompleted,
 }) => {
+  const count = todos.filter(todo => !todo.completed).length;
+
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
-        {todos.filter(todo => !todo.completed).length} items left
+        {count} items left
       </span>
 
       {/*+ Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
-        {['All', 'Active', 'Completed'].map(item => {
+        {Object.values(Filter).map(item => {
           return (
             <a
               key={item}
               href="#/All"
-              className={`filter__link ${selectedFilter === item ? 'selected' : ''}`}
+              className={cn(`filter__link
+                 ${selectedFilter === item ? 'selected' : ''}`)}
               data-cy={`FilterLink${item}`}
               onClick={() => setselectedFilter(item)}
             >

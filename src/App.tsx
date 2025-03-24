@@ -9,16 +9,17 @@ import { Footer } from './component/Footer/Footer';
 import { Todo } from './types/Todo';
 import { Error } from './component/Error';
 import { Loader } from './component/Loader';
+import { Filter } from './types/Filter';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [errorMessege, setErrorMessege] = useState<string>('');
+  const [errorMessege, setErrorMessege] = useState<string | null>(null);
   const [newTodo, setNewTodo] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [selectedFilter, setselectedFilter] = useState<string>('All');
+  const [selectedFilter, setselectedFilter] = useState<string>(Filter.All);
 
   const loadTodos = async (): Promise<void> => {
-    setErrorMessege('');
+    setErrorMessege(null);
     try {
       setLoading(false);
       setTodos(await getTodos());
@@ -34,11 +35,11 @@ export const App: React.FC = () => {
     loadTodos();
   }, []);
   useEffect(() => {
-    if (errorMessege.length === 0) {
+    if (errorMessege === null) {
       return;
     }
 
-    const timer = setTimeout(() => setErrorMessege(''), 3000);
+    const timer = setTimeout(() => setErrorMessege(null), 3000);
 
     return () => clearTimeout(timer);
   }, [errorMessege]);
@@ -62,7 +63,7 @@ export const App: React.FC = () => {
       setErrorMessege('Unable to add a todo');
     } finally {
       setLoading(false);
-      setErrorMessege('');
+      setErrorMessege(null);
     }
   }
 
@@ -81,11 +82,11 @@ export const App: React.FC = () => {
 
   const filteredTodos = () => {
     switch (selectedFilter) {
-      case 'Active':
+      case Filter.Active:
         return todos.filter(todo => !todo.completed);
-      case 'Completed':
+      case Filter.Completed:
         return todos.filter(todo => todo.completed);
-      case 'All':
+      case Filter.All:
         return todos;
       default:
         return todos;
