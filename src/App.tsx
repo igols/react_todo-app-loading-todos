@@ -126,7 +126,7 @@ export const App: React.FC = () => {
       </div>
       {loading && <Loader />}
 
-      {(errorMessege === '' || todos.length === 0) && (
+      {(errorMessege === null || todos.length === 0) && (
         <Error errorMessege={errorMessege} setError={setErrorMessege} />
       )}
     </div>
